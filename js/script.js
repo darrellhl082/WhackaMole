@@ -6,7 +6,8 @@ const soils = document.querySelectorAll('.soil');
 const moles = document.querySelectorAll('.mole');
 const startClick = document.querySelector('.startClick');
 const scoreBoard = document.querySelector('.score');
-let score, lastSoil, end, playerName, timeSign, token;
+let score, lastSoil, end, playerName, timeSign, token, allMole;
+
 let timer = document.querySelector('.timer')
 // first condition
 moles.forEach(m => {
@@ -69,7 +70,7 @@ function time(time, timerField) {
 
 // gameFlow Function
 function start() {
-
+    allMole = 0;
     //Reset Conditiob
     startClick.disabled = true;
     moles.forEach(m => {
@@ -106,6 +107,8 @@ function endGame() {
     moles.forEach(m => {
         m.classList.toggle('d-none');
     });
+    console.log(allMole);
+    console.log(allMole - score);
     document.querySelector('.timeLabel').innerHTML = 'Start In';
     setTimeout(() => {
         submitScore(playerName, score, token);
@@ -116,6 +119,7 @@ function endGame() {
 }
 
 function moleAppear() {
+    allMole++;
     const soilRandom = randomSoil(soils);
     const tRandom = timeRand(500, 1000);
     soilRandom.children[0].style.transition = "TOP 0.3s"
@@ -144,9 +148,10 @@ function finalScore() {
                     <img class="mb-3 mt-2" src="img/tikus.png" width="175px" alt="mole">
                     <h2 class="congratulation">Congrats, ${playerName}!!</h2>
                     <span class="d-block congScore">Your Score</span>
-
                     <h2 class="score">${score}</h2>
-                    <button class="btn btn-outline-light closeFinalBtn" onclick="closeScore()">Close</button>
+                    <span class="d-block congScore">Miss</span>
+                    <h3 class="miss">${allMole-score}</h3>
+                    <button class="btn btn-outline-light closeFinalBtn mt-5" onclick="closeScore()">Close</button>
                 </div>
             </div>
         </div>
@@ -174,6 +179,7 @@ function whack() {
 function submitScore(name, score, pass) {
     if (pass === token) {
         $('#floatingScore').val(score);
+        $('#miss').val(allMole - score);
         fetch(scriptURL, {
                 method: 'POST',
                 body: new FormData(form)

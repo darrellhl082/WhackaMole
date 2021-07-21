@@ -51,6 +51,8 @@ function timeRand(min, max) {
 
 // time function
 function time(time, timerField) {
+    //var reset
+    timeSign = false;
     timerField.innerHTML = time;
     if (!timeSign) {
         setInterval(() => {
@@ -68,7 +70,6 @@ function time(time, timerField) {
 // gameFlow Function
 function start() {
     //Reset Conditiob
-    timeSign = false;
     startClick.disabled = true;
     moles.forEach(m => {
         m.classList.toggle('d-none')
@@ -82,7 +83,7 @@ function start() {
 function gameFlow() {
     //Var reset
     score = 0;
-    timeSign, end = false;
+    end = false;
     //HTML DOM Reset
     timer.innerHTML = 30;
     document.querySelector('.timeLabel').innerHTML = 'Your Time';
@@ -99,6 +100,7 @@ function endGame() {
 
     document.querySelector('.closeFinal').innerHTML = finalScore();
     document.querySelector('.applause').play();
+
     end = true;
     moles.forEach(m => {
         m.classList.toggle('d-none');

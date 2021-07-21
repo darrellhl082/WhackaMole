@@ -107,8 +107,6 @@ function endGame() {
     moles.forEach(m => {
         m.classList.toggle('d-none');
     });
-    console.log(allMole);
-    console.log(allMole - score);
     document.querySelector('.timeLabel').innerHTML = 'Start In';
     setTimeout(() => {
         submitScore(playerName, score, token);

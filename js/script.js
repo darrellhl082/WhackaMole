@@ -6,7 +6,7 @@ const soils = document.querySelectorAll('.soil');
 const moles = document.querySelectorAll('.mole');
 const startClick = document.querySelector('.startClick');
 const scoreBoard = document.querySelector('.score');
-let score, lastSoil, end, playerName, timeSign;
+let score, lastSoil, end, playerName, timeSign, token;
 let timer = document.querySelector('.timer')
 // first condition
 moles.forEach(m => {
@@ -69,6 +69,7 @@ function time(time, timerField) {
 
 // gameFlow Function
 function start() {
+
     //Reset Conditiob
     startClick.disabled = true;
     moles.forEach(m => {
@@ -97,7 +98,7 @@ function gameFlow() {
 }
 
 function endGame() {
-
+    token = Math.random();
     document.querySelector('.closeFinal').innerHTML = finalScore();
     document.querySelector('.applause').play();
 
@@ -107,7 +108,7 @@ function endGame() {
     });
     document.querySelector('.timeLabel').innerHTML = 'Start In';
     setTimeout(() => {
-        submitScore(playerName, score);
+        submitScore(playerName, score, token);
         startClick.disabled = false;
     }, 100);
 
@@ -170,15 +171,19 @@ function whack() {
 
 
 
-function submitScore(name, score) {
-    $('#floatingScore').val(score);
-    fetch(scriptURL, {
-            method: 'POST',
-            body: new FormData(form)
-        })
-        .then(response => {
-            console.log('Success!', response);
+function submitScore(name, score, pass) {
+    if (pass === token) {
+        $('#floatingScore').val(score);
+        fetch(scriptURL, {
+                method: 'POST',
+                body: new FormData(form)
+            })
+            .then(response => {
+                console.log('Success!', response);
 
-        })
-        .catch(error => console.error('Error!', error.message));
+            })
+            .catch(error => console.error('Error!', error.message));
+    } else {
+        console.error('Jangan Curang Dong!!')
+    }
 }
